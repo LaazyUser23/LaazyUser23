@@ -1,0 +1,43 @@
+setTimeout(() => {
+console.log("Running Type Writer")
+setInterval(() => {
+var content = document.getElementById("actualLetter").innerHTML + document.getElementById("remainingText").innerHTML
+a(content)
+}, 400);
+}, 2000);
+
+function a(content) {
+    if(content.length = 0) return;
+
+var input = document.getElementById("textInput")
+input.focus()
+input.value += content[0]
+if(input.value.charAt(0) === " " || content.startsWith("&nbs")) {
+input.dispatchEvent(new KeyboardEvent('keypress',{'keyCode':'32'}));
+} else {
+triggerKeyboardEvent(input, input.value.charCodeAt(0), "keydown")
+input.click()
+input.dispatchEvent(new KeyboardEvent('keypress',{'key':input.value.charAt(0)}));
+setTimeout(() => {
+    triggerKeyboardEvent(input, input.value.charCodeAt(0), "keyup")
+    }, 200);
+}
+}
+
+
+
+function triggerKeyboardEvent(el, keyCode, type)
+{
+    var eventObj = document.createEventObject ?
+        document.createEventObject() : document.createEvent("Events");
+  
+    if(eventObj.initEvent){
+      eventObj.initEvent(type, true, true);
+    }
+  
+    eventObj.keyCode = keyCode;
+    eventObj.which = keyCode;
+    
+    el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent("onkeydown", eventObj); 
+  
+}
